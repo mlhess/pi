@@ -1,10 +1,19 @@
 import SocketServer
+import datetime
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(28, GPIO.OUT)
+GPIO.setup(29, GPIO.OUT)
+GPIO.setup(30, GPIO.OUT)
+GPIO.setup(31, GPIO.OUT)
 ## 4 of lights one and they are the first 4 lights in the chain.  Each of the lights takes 4 inputs, brightness, red,green,blue
 ##the 5th light is a special case
 
 import array
 from ola.ClientWrapper import ClientWrapper
 wrapper = ClientWrapper()
+
 
 def DmxSent(state):
       wrapper.Stop()
@@ -13,6 +22,12 @@ def lights_start(bright,red,green,blue,rotate,sp):
     lights_do(bright,red,green,blue,rotate,sp)
 def lights_do(bright,red,green,blue,rotate,sp): # 255, 0,0,255, 175, 206
 	universe = 1
+	GPIO.output(29,True)
+	f = open('/tmp/myfile','w')
+	f.write('hi')
+
+	
+	
 	data = array.array('B')
 	light_data = [bright,red,green,blue,rotate]
 	normal_light = light_data[:-1]
